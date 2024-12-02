@@ -53,8 +53,7 @@ function ticTacToe() {
 
   // Event listener added to each square, with relevant ID.
   // Click of a square controls game flow for each turn.
-  // This effectively "pauses" the game to wait for player input,
-  // without major impact on browser peformance.
+  // This effectively "pauses" the game to wait for player input.
   // Player playing as X always goes first.
   squares.forEach((square) => {
     square.addEventListener("click", () => {
@@ -136,3 +135,7 @@ function ticTacToe() {
     });
   });
 }
+
+start.addEventListener("click", () => {
+  ticTacToe();
+});
