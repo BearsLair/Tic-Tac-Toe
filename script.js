@@ -75,7 +75,7 @@ function ticTacToe() {
         //Evaluate if win condition met for player one
         if (turn > 2 && turn < 9) {
           for (let i = 0; i < 8; i++) {
-            for (let k = 0; i < 2; k++) {
+            for (let k = 0; k < 2; k++) {
               if (
                 currentPlayers[0].playerOneMoves.includes(winConditions[i][k])
               ) {
@@ -110,7 +110,7 @@ function ticTacToe() {
         //Evaluate if win condition met for player two
         if (turn > 2 && turn < 9) {
           for (let i = 0; i < 8; i++) {
-            for (let k = 0; i < 2; k++) {
+            for (let k = 0; k < 2; k++) {
               if (
                 currentPlayers[1].playerTwoMoves.includes(winConditions[i][k])
               ) {
