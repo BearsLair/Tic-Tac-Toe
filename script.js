@@ -72,6 +72,9 @@ function ticTacToe() {
         // Disable click event for square once clicked
         square.style.pointerEvents = "none";
 
+        // BUG: Something wrong with win condition loop.
+        // Win counter maybe?
+
         //Evaluate if win condition met for player one
         if (turn > 2 && turn < 9) {
           for (let i = 0; i < 8; i++) {
@@ -106,6 +109,9 @@ function ticTacToe() {
         currentPlayers[1].playerTwoMoves.push(squareId);
         // Disable click event for square once clicked
         square.style.pointerEvents = "none";
+
+        // BUG: Something wrong with win condition loop.
+        // Win counter maybe?
 
         //Evaluate if win condition met for player two
         if (turn > 2 && turn < 9) {
