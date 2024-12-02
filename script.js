@@ -66,6 +66,11 @@ function ticTacToe() {
         squares.forEach((element, index) => {
           element.addEventListener("click", () => {
             console.log("Square " + index + " clicked");
+
+            // This will add the text to the selected HTML element
+            text = document.createTextNode(currentPlayers[0].playerOneIcon);
+            element.appendChild(text);
+
             squareId = index;
 
             switch (squareId) {
@@ -104,12 +109,13 @@ function ticTacToe() {
           });
         });
 
-        document.querySelector(`.${position}`).textContent =
-          currentPlayers[0].playerOneIcon;
+
+        // document.querySelector(`.${position}`).textContent =
+        //   currentPlayers[0].playerOneIcon;
 
         currentPlayers[0].playerOneMoves.push(position);
-        document.querySelector(`.${position}`).textContent =
-          currentPlayers[0].playerOneIcon;
+        // document.querySelector(`.${position}`).textContent =
+        //   currentPlayers[0].playerOneIcon;
         gamelog.push(position);
 
         if (currentPlayers[0].playerOneMoves.length > 2) {
