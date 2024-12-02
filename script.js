@@ -42,8 +42,6 @@ function ticTacToe() {
   ];
 
   // Set beginning conditions
-  let matchTie = false;
-  let playerOneTurn = true;
   let turn = 1;
   let winCounter = 0;
   let winner = "";
@@ -75,15 +73,28 @@ function ticTacToe() {
         // Disable click event for square once clicked
         square.style.pointerEvents = "none";
 
-        //Evaluate if win condition met
+        //Evaluate if win condition met for player one
         if (turn > 2 && turn < 9) {
           for (let i = 0; i < 8; i++) {
             for (let k = 0; i < 2; k++) {
-              if (currentPlayers.[0].playerOneMoves.includes(winConditions[i][k])) {
+              if (
+                currentPlayers[0].playerOneMoves.includes(winConditions[i][k])
+              ) {
                 winCounter++;
+              }
+              if (k === 2 && winCounter < 3) {
+                winCounter = 0;
               }
             }
           }
+        }
+
+        //Announce win for player one
+        if (winCounter > 2) {
+          instructions.textContent = `${playerOne} wins the match!`;
+          squares.forEach((square) => {
+            square.style.pointerEvents = "none";
+          });
         }
 
         turn++;
@@ -95,12 +106,33 @@ function ticTacToe() {
         currentPlayers[1].playerTwoMoves.push(squareId);
         // Disable click event for square once clicked
         square.style.pointerEvents = "none";
+
+        //Evaluate if win condition met for player two
+        if (turn > 2 && turn < 9) {
+          for (let i = 0; i < 8; i++) {
+            for (let k = 0; i < 2; k++) {
+              if (
+                currentPlayers[1].playerTwoMoves.includes(winConditions[i][k])
+              ) {
+                winCounter++;
+              }
+              if (k === 2 && winCounter < 3) {
+                winCounter = 0;
+              }
+            }
+          }
+        }
+
+        //Announce win for player two
+        if (winCounter > 2) {
+          instructions.textContent = `${playerTwo} wins the match!`;
+          squares.forEach((square) => {
+            square.style.pointerEvents = "none";
+          });
+        }
+
         turn++;
       }
     });
   });
-
-  // This will add the text to the selected HTML element
-  // text = document.createTextNode(currentPlayers[0].playerOneIcon);
-  // element.appendChild(text);
 }
