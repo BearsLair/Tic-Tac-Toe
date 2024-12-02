@@ -45,7 +45,7 @@ function ticTacToe() {
   let turn = 1;
   let winCounter = 0;
   let winner = "";
-  let squareId = 0;
+
   instructions.textContent = `${playerOne}, which square do you pick?`;
 
   // Game log used display player choices to the DOM will be implemented later
@@ -57,7 +57,9 @@ function ticTacToe() {
   // Player playing as X always goes first.
   squares.forEach((square) => {
     square.addEventListener("click", () => {
-      squareId = squareId++;
+      let squareId = Array.prototype.indexOf.call(squares, square) + 1;
+      console.log("Square " + squareId + " clicked.");
+      console.log("On turn ", turn);
 
       // Tie
       if (turn === 9) {
@@ -78,7 +80,7 @@ function ticTacToe() {
         //Evaluate if win condition met for player one
         if (turn > 2 && turn < 9) {
           for (let i = 0; i < 8; i++) {
-            for (let k = 0; k < 2; k++) {
+            for (let k = 0; k < 3; k++) {
               if (
                 currentPlayers[0].playerOneMoves.includes(winConditions[i][k])
               ) {
@@ -100,6 +102,7 @@ function ticTacToe() {
           });
         }
 
+        console.log("Player one's moves: ", currentPlayers[0].playerOneMoves);
         turn++;
 
         // Player two (O) turn
@@ -116,7 +119,7 @@ function ticTacToe() {
         //Evaluate if win condition met for player two
         if (turn > 2 && turn < 9) {
           for (let i = 0; i < 8; i++) {
-            for (let k = 0; k < 2; k++) {
+            for (let k = 0; k < 3; k++) {
               if (
                 currentPlayers[1].playerTwoMoves.includes(winConditions[i][k])
               ) {
@@ -138,6 +141,7 @@ function ticTacToe() {
           });
         }
 
+        console.log("Player two's moves: ", currentPlayers[1].playerTwoMoves);
         turn++;
       }
     });
