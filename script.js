@@ -80,6 +80,7 @@ function ticTacToe() {
                 currentPlayers[0].playerOneMoves.includes(winConditions[i][k])
               ) {
                 winCounter++;
+                console.log("Win counter for player one: ", winCounter);
               }
               if (k === 2 && winCounter < 3) {
                 winCounter = 0;
@@ -114,6 +115,7 @@ function ticTacToe() {
                 currentPlayers[1].playerTwoMoves.includes(winConditions[i][k])
               ) {
                 winCounter++;
+                console.log("Win counter for player two: ", winCounter);
               }
               if (k === 2 && winCounter < 3) {
                 winCounter = 0;
