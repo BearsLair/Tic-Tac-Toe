@@ -29,7 +29,7 @@ function ticTacToe() {
 
   playerNames.textContent = `${playerOne}(X) vs. ${playerTwo}(O)`;
 
-  // Win conditions array based on nodelist index position in squares varibale
+  // Win conditions array based on nodelist index position in squares variable
   winConditions = [
     [1, 2, 3],
     [4, 5, 6],
@@ -103,6 +103,7 @@ function ticTacToe() {
         }
 
         console.log("Player one's moves: ", currentPlayers[0].playerOneMoves);
+        instructions.textContent = `${playerTwo}, which square do you choose?`;
         turn++;
 
         // Player two (O) turn
@@ -142,6 +143,7 @@ function ticTacToe() {
         }
 
         console.log("Player two's moves: ", currentPlayers[1].playerTwoMoves);
+        instructions.textContent = `${playerOne}, which square do you choose?`;
         turn++;
       }
     });
