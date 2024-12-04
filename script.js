@@ -4,6 +4,19 @@ const instructions = document.querySelector(".instructions");
 const start = document.querySelector("#start");
 const result = document.querySelector(".result");
 
+// Set beginning conditions
+let win = false;
+let turn = 1;
+let winCounter = 0;
+let playerIcon = null;
+let playerMoves = null;
+let nextPlayerInstructions = "";
+let playerWin = "";
+squares.forEach((square) => {
+  square.style.pointerEvents = "auto";
+  square.textContent = "";
+});
+
 function ticTacToe() {
   // Ask for the names of both players
   const playerOne = prompt("Name of Player for X");
@@ -71,12 +84,14 @@ function ticTacToe() {
 
       // Player one (X) turn
       if (turn % 2 !== 0) {
+        playerName = currentPlayers[0].playerOneName;
         playerIcon = currentPlayers[0].playerOneIcon;
         playerMoves = currentPlayers[0].playerOneMoves;
         nextPlayerInstructions = `${playerTwo}, which square do you pick?`;
         playerWin = `${playerOne} wins the game!`;
         // Player two (O) turn
       } else if (turn % 2 === 0) {
+        playerName = currentPlayers[1].playerTwoName;
         playerIcon = currentPlayers[1].playerTwoIcon;
         playerMoves = currentPlayers[1].playerTwoMoves;
         nextPlayerInstructions = `${playerOne}, which square do you pick?`;
@@ -98,18 +113,18 @@ function ticTacToe() {
             if (k === 2 && winCounter < 3) {
               winCounter = 0;
             } else if (winCounter === 3) {
-              squares.forEach((square) => {
-                square.style.pointerEvents = "none";
-                win = true;
-              });
+              win = true;
             }
-            console.log(winCounter);
           }
         }
       }
 
       if (win === true) {
+        squares.forEach((square) => {
+          square.style.pointerEvents = "none";
+        });
         instructions.textContent = playerWin;
+        winCounter = 0;
       } else {
         instructions.textContent = nextPlayerInstructions;
       }
@@ -126,5 +141,18 @@ function ticTacToe() {
 }
 
 start.addEventListener("click", () => {
+  // Reset beginning conditions
+  let win = false;
+  let turn = 1;
+  let winCounter = 0;
+  let playerIcon = null;
+  let playerMoves = null;
+  let nextPlayerInstructions = "";
+  let playerWin = "";
+  squares.forEach((square) => {
+    square.style.pointerEvents = "auto";
+    square.textContent = "";
+  });
+
   ticTacToe();
 });
