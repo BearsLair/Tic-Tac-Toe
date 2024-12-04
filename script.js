@@ -56,7 +56,7 @@ function ticTacToe() {
 
   instructions.textContent = `${playerOne}, which square do you pick?`;
 
-  // Game log used display player choices to the DOM will be implemented later
+  // Game log used display list of player choices to the DOM will be implemented later
   let gamelog = [];
 
   // Event listener added to each square, with relevant ID.
@@ -87,7 +87,7 @@ function ticTacToe() {
       // Disable click event for square once clicked
       square.style.pointerEvents = "none";
 
-      //Evaluate if win condition met for player one
+      //Evaluate if win condition met for a player
       if (turn > 2 && turn < 10) {
         for (let i = 0; i < 8; i++) {
           for (let k = 0; k < 3; k++) {
