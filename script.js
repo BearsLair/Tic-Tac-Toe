@@ -4,23 +4,15 @@ const instructions = document.querySelector(".instructions");
 const start = document.querySelector("#start");
 const result = document.querySelector(".result");
 
-// Set beginning conditions
-let win = false;
-let turn = 1;
-let winCounter = 0;
-let playerIcon = null;
-let playerMoves = null;
-let nextPlayerInstructions = "";
-let playerWin = "";
-squares.forEach((square) => {
-  square.style.pointerEvents = "auto";
-  square.textContent = "";
+// Starts/Resets game
+start.addEventListener("click", () => {
+  ticTacToe();
 });
 
 function ticTacToe() {
   // Ask for the names of both players
-  const playerOne = prompt("Name of Player for X");
-  const playerTwo = prompt("Name of Player for O");
+  let playerOne = prompt("Name of Player for X");
+  let playerTwo = prompt("Name of Player for O");
 
   // Object factory function to create players (assign name, icon, and list of moves)
   function players(playerOne, playerTwo) {
@@ -39,13 +31,14 @@ function ticTacToe() {
   }
 
   // Players created with factory function and assigned to currentPlayers variable
-  const currentPlayers = players(playerOne, playerTwo);
+  currentPlayers = players(playerOne, playerTwo);
 
   playerNames.textContent = `${playerOne}(X) vs. ${playerTwo}(O)`;
 
   // Set beginning conditions
   let win = false;
   let turn = 1;
+  let playerName = "";
   let playerIcon = null;
   let playerMoves = null;
   let nextPlayerInstructions = "";
@@ -67,6 +60,10 @@ function ticTacToe() {
   // Player playing as X always goes first.
   squares.forEach((square) => {
     square.addEventListener("click", () => {
+      squares.forEach((square) => {
+        square.style.pointerEvents = "auto";
+      });
+
       let squareId = Array.prototype.indexOf.call(squares, square) + 1;
 
       // Player one (X) turn
@@ -91,62 +88,61 @@ function ticTacToe() {
       square.style.pointerEvents = "none";
 
       //Evaluate if win condition met for a player
-      if (turn > 2 && turn < 10) {
-        determinWin();
+      if (turn > 4) {
+        determinWin(playerMoves);
       }
+
+      if (turn === 9) {
+        instructions.textContent = "Game is tied!";
+        squares.forEach((square) => {
+          square.style.pointerEvents = "none";
+        });
+      }
+
+      turn++;
 
       if (win === true) {
         squares.forEach((square) => {
           square.style.pointerEvents = "none";
         });
         instructions.textContent = playerWin;
-        winCounter = 0;
+        turn = 1;
       } else {
         instructions.textContent = nextPlayerInstructions;
       }
-      turn++;
-
-      if (turn === 10) {
-        instructions.textContent = "Game is tied!";
-        squares.forEach((square) => {
-          square.style.pointerEvents = "none";
-        });
-      }
     });
   });
-}
 
-function determinWin(playerMoves) {
-  // Win conditions array based on nodelist index position in squares variable
-  winConditions = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-    [1, 4, 7],
-    [2, 5, 8],
-    [3, 6, 9],
-    [1, 5, 9],
-    [3, 5, 7],
-  ];
+  // Function determins if player won by looping through current pLayerMoves
+  // and winConditions
+  function determinWin(playerMoves) {
+    winConditions = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 6, 9],
+      [1, 5, 9],
+      [3, 5, 7],
+    ];
 
-  let winCounter = 0;
+    let winCounter = 0;
 
-  // Loops though winConditions and the current playerMoves to determine if win met
-  // Returns win to be true if win detected
-  for (let i = 0; i < 8; i++) {
-    for (let k = 0; k < 3; k++) {
-      if (playerMoves.includes(winConditions[i][k])) {
-        winCounter++;
+    // Loops though winConditions and the current playerMoves to determine if win met
+    // Returns win to be true if win detected
+    for (let i = 0; i < 8; i++) {
+      for (let k = 0; k < 3; k++) {
+        if (playerMoves.includes(winConditions[i][k])) {
+          winCounter++;
+        }
       }
-      if (k === 2 && winCounter < 3) {
-        winCounter = 0;
-      } else if (winCounter === 3) {
+      if (winCounter === 3) {
         return (win = true);
+      } else {
+        winCounter = 0;
       }
     }
+    return (win = false);
   }
 }
-
-start.addEventListener("click", () => {
-  ticTacToe();
-});
