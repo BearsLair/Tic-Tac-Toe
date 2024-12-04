@@ -2,6 +2,7 @@ const squares = document.querySelectorAll(".square");
 const playerNames = document.querySelector(".players");
 const instructions = document.querySelector(".instructions");
 const start = document.querySelector("#start");
+const result = document.querySelector(".result");
 
 function ticTacToe() {
   // Ask for the names of both players
@@ -44,7 +45,6 @@ function ticTacToe() {
   // Set beginning conditions
   let turn = 1;
   let winCounter = 0;
-  let winner = "";
 
   instructions.textContent = `${playerOne}, which square do you pick?`;
 
@@ -61,24 +61,16 @@ function ticTacToe() {
       console.log("Square " + squareId + " clicked.");
       console.log("On turn ", turn);
 
-      // Tie
-      if (turn === 9) {
-        instructions.textContent = "Game is tied!";
-      }
-
       // Player one (X) turn
       if (turn % 2 !== 0) {
         text = document.createTextNode(currentPlayers[0].playerOneIcon);
         square.appendChild(text);
         currentPlayers[0].playerOneMoves.push(squareId);
         // Disable click event for square once clicked
-        square.style.pointerEvents = "none";
-
-        // BUG: Something wrong with win condition loop.
-        // Win counter maybe?
+        // square.style.pointerEvents = "none";
 
         //Evaluate if win condition met for player one
-        if (turn > 2 && turn < 9) {
+        if (turn > 2 && turn < 10) {
           for (let i = 0; i < 8; i++) {
             for (let k = 0; k < 3; k++) {
               if (
@@ -89,36 +81,30 @@ function ticTacToe() {
               }
               if (k === 2 && winCounter < 3) {
                 winCounter = 0;
+                console.log("win counter reset");
+              } else if (winCounter === 3) {
+                result.textContent = `${playerOne} wins the match!`;
+                squares.forEach((square) => {
+                  square.style.pointerEvents = "none";
+                });
               }
             }
           }
+
+          console.log("Player one's moves: ", currentPlayers[0].playerOneMoves);
+          instructions.textContent = `${playerTwo}, which square do you choose?`;
         }
-
-        //Announce win for player one
-        if (winCounter > 2) {
-          instructions.textContent = `${playerOne} wins the match!`;
-          squares.forEach((square) => {
-            square.style.pointerEvents = "none";
-          });
-        }
-
-        console.log("Player one's moves: ", currentPlayers[0].playerOneMoves);
-        instructions.textContent = `${playerTwo}, which square do you choose?`;
-        turn++;
-
-        // Player two (O) turn
-      } else if (turn % 2 === 0) {
+      }
+      // Player two (O) turn
+      else if (turn % 2 === 0) {
         text = document.createTextNode(currentPlayers[1].playerTwoIcon);
         square.appendChild(text);
         currentPlayers[1].playerTwoMoves.push(squareId);
         // Disable click event for square once clicked
-        square.style.pointerEvents = "none";
-
-        // BUG: Something wrong with win condition loop.
-        // Win counter maybe?
+        // square.style.pointerEvents = "none";
 
         //Evaluate if win condition met for player two
-        if (turn > 2 && turn < 9) {
+        if (turn > 2 && turn < 10) {
           for (let i = 0; i < 8; i++) {
             for (let k = 0; k < 3; k++) {
               if (
@@ -129,23 +115,20 @@ function ticTacToe() {
               }
               if (k === 2 && winCounter < 3) {
                 winCounter = 0;
+              } else if (winCounter === 3) {
+                result.textContent = `${playerTwo} wins the match!`;
+                squares.forEach((square) => {
+                  square.style.pointerEvents = "none";
+                });
               }
             }
           }
-        }
 
-        //Announce win for player two
-        if (winCounter > 2) {
-          instructions.textContent = `${playerTwo} wins the match!`;
-          squares.forEach((square) => {
-            square.style.pointerEvents = "none";
-          });
+          console.log("Player two's moves: ", currentPlayers[1].playerTwoMoves);
+          instructions.textContent = `${playerOne}, which square do you choose?`;
         }
-
-        console.log("Player two's moves: ", currentPlayers[1].playerTwoMoves);
-        instructions.textContent = `${playerOne}, which square do you choose?`;
-        turn++;
       }
+      turn++;
     });
   });
 }
