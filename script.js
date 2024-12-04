@@ -45,6 +45,14 @@ function ticTacToe() {
   // Set beginning conditions
   let turn = 1;
   let winCounter = 0;
+  let playerIcon = null;
+  let playerMoves = null;
+  let nextPlayerInstructions = "";
+  let playerWin = "";
+  squares.forEach((square) => {
+    square.style.pointerEvents = "auto";
+    square.textContent = "";
+  });
 
   instructions.textContent = `${playerOne}, which square do you pick?`;
 
@@ -58,77 +66,49 @@ function ticTacToe() {
   squares.forEach((square) => {
     square.addEventListener("click", () => {
       let squareId = Array.prototype.indexOf.call(squares, square) + 1;
-      console.log("Square " + squareId + " clicked.");
-      console.log("On turn ", turn);
 
       // Player one (X) turn
       if (turn % 2 !== 0) {
-        text = document.createTextNode(currentPlayers[0].playerOneIcon);
-        square.appendChild(text);
-        currentPlayers[0].playerOneMoves.push(squareId);
-        // Disable click event for square once clicked
-        // square.style.pointerEvents = "none";
+        playerIcon = currentPlayers[0].playerOneIcon;
+        playerMoves = currentPlayers[0].playerOneMoves;
+        nextPlayerInstructions = `${playerTwo}, which square do you pick?`;
+        playerWin = `${playerOne} wins the game!`;
+        // Player two (O) turn
+      } else if (turn % 2 === 0) {
+        playerIcon = currentPlayers[1].playerTwoIcon;
+        playerMoves = currentPlayers[1].playerTwoMoves;
+        nextPlayerInstructions = `${playerOne}, which square do you pick?`;
+        playerWin = `${playerTwo} wins the game!`;
+      }
 
-        //Evaluate if win condition met for player one
-        if (turn > 2 && turn < 10) {
-          for (let i = 0; i < 8; i++) {
-            for (let k = 0; k < 3; k++) {
-              if (
-                currentPlayers[0].playerOneMoves.includes(winConditions[i][k])
-              ) {
-                winCounter++;
-                console.log("Win counter for player one: ", winCounter);
-              }
-              if (k === 2 && winCounter < 3) {
-                winCounter = 0;
-                console.log("win counter reset");
-              } else if (winCounter === 3) {
-                result.textContent = `${playerOne} wins the match!`;
-                squares.forEach((square) => {
-                  square.style.pointerEvents = "none";
-                });
-              }
+      text = document.createTextNode(playerIcon);
+      square.appendChild(text);
+      playerMoves.push(squareId);
+      // Disable click event for square once clicked
+      square.style.pointerEvents = "none";
+
+      //Evaluate if win condition met for player one
+      if (turn > 2 && turn < 10) {
+        for (let i = 0; i < 8; i++) {
+          for (let k = 0; k < 3; k++) {
+            if (playerMoves.includes(winConditions[i][k])) {
+              winCounter++;
+            }
+            if (k === 2 && winCounter < 3) {
+              winCounter = 0;
+            } else if (winCounter === 3) {
+              result.textContent = playerWin;
+              squares.forEach((square) => {
+                square.style.pointerEvents = "none";
+              });
             }
           }
-
-          console.log("Player one's moves: ", currentPlayers[0].playerOneMoves);
-          instructions.textContent = `${playerTwo}, which square do you choose?`;
         }
-      }
-      // Player two (O) turn
-      else if (turn % 2 === 0) {
-        text = document.createTextNode(currentPlayers[1].playerTwoIcon);
-        square.appendChild(text);
-        currentPlayers[1].playerTwoMoves.push(squareId);
-        // Disable click event for square once clicked
-        // square.style.pointerEvents = "none";
 
-        //Evaluate if win condition met for player two
-        if (turn > 2 && turn < 10) {
-          for (let i = 0; i < 8; i++) {
-            for (let k = 0; k < 3; k++) {
-              if (
-                currentPlayers[1].playerTwoMoves.includes(winConditions[i][k])
-              ) {
-                winCounter++;
-                console.log("Win counter for player two: ", winCounter);
-              }
-              if (k === 2 && winCounter < 3) {
-                winCounter = 0;
-              } else if (winCounter === 3) {
-                result.textContent = `${playerTwo} wins the match!`;
-                squares.forEach((square) => {
-                  square.style.pointerEvents = "none";
-                });
-              }
-            }
-          }
+        instructions.textContent = nextPlayerInstructions;
 
-          console.log("Player two's moves: ", currentPlayers[1].playerTwoMoves);
-          instructions.textContent = `${playerOne}, which square do you choose?`;
-        }
+        turn++;
       }
-      turn++;
     });
   });
 }
