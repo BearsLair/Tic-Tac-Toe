@@ -43,12 +43,14 @@ function ticTacToe() {
   ];
 
   // Set beginning conditions
+  let win = false;
   let turn = 1;
   let winCounter = 0;
   let playerIcon = null;
   let playerMoves = null;
   let nextPlayerInstructions = "";
   let playerWin = "";
+
   squares.forEach((square) => {
     square.style.pointerEvents = "auto";
     square.textContent = "";
@@ -81,8 +83,7 @@ function ticTacToe() {
         playerWin = `${playerTwo} wins the game!`;
       }
 
-      text = document.createTextNode(playerIcon);
-      square.appendChild(text);
+      square.textContent = playerIcon;
       playerMoves.push(squareId);
       // Disable click event for square once clicked
       square.style.pointerEvents = "none";
@@ -97,17 +98,28 @@ function ticTacToe() {
             if (k === 2 && winCounter < 3) {
               winCounter = 0;
             } else if (winCounter === 3) {
-              result.textContent = playerWin;
               squares.forEach((square) => {
                 square.style.pointerEvents = "none";
+                win = true;
               });
             }
+            console.log(winCounter);
           }
         }
+      }
 
+      if (win === true) {
+        instructions.textContent = playerWin;
+      } else {
         instructions.textContent = nextPlayerInstructions;
+      }
+      turn++;
 
-        turn++;
+      if (turn === 10) {
+        instructions.textContent = "Game is tied!";
+        squares.forEach((square) => {
+          square.style.pointerEvents = "none";
+        });
       }
     });
   });
