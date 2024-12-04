@@ -43,22 +43,9 @@ function ticTacToe() {
 
   playerNames.textContent = `${playerOne}(X) vs. ${playerTwo}(O)`;
 
-  // Win conditions array based on nodelist index position in squares variable
-  winConditions = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-    [1, 4, 7],
-    [2, 5, 8],
-    [3, 6, 9],
-    [1, 5, 9],
-    [3, 5, 7],
-  ];
-
   // Set beginning conditions
   let win = false;
   let turn = 1;
-  let winCounter = 0;
   let playerIcon = null;
   let playerMoves = null;
   let nextPlayerInstructions = "";
@@ -105,18 +92,7 @@ function ticTacToe() {
 
       //Evaluate if win condition met for a player
       if (turn > 2 && turn < 10) {
-        for (let i = 0; i < 8; i++) {
-          for (let k = 0; k < 3; k++) {
-            if (playerMoves.includes(winConditions[i][k])) {
-              winCounter++;
-            }
-            if (k === 2 && winCounter < 3) {
-              winCounter = 0;
-            } else if (winCounter === 3) {
-              win = true;
-            }
-          }
-        }
+        determinWin();
       }
 
       if (win === true) {
@@ -140,19 +116,37 @@ function ticTacToe() {
   });
 }
 
-start.addEventListener("click", () => {
-  // Reset beginning conditions
-  let win = false;
-  let turn = 1;
-  let winCounter = 0;
-  let playerIcon = null;
-  let playerMoves = null;
-  let nextPlayerInstructions = "";
-  let playerWin = "";
-  squares.forEach((square) => {
-    square.style.pointerEvents = "auto";
-    square.textContent = "";
-  });
+function determinWin(playerMoves) {
+  // Win conditions array based on nodelist index position in squares variable
+  winConditions = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
 
+  let winCounter = 0;
+
+  // Loops though winConditions and the current playerMoves to determine if win met
+  // Returns win to be true if win detected
+  for (let i = 0; i < 8; i++) {
+    for (let k = 0; k < 3; k++) {
+      if (playerMoves.includes(winConditions[i][k])) {
+        winCounter++;
+      }
+      if (k === 2 && winCounter < 3) {
+        winCounter = 0;
+      } else if (winCounter === 3) {
+        return (win = true);
+      }
+    }
+  }
+}
+
+start.addEventListener("click", () => {
   ticTacToe();
 });
