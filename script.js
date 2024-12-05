@@ -11,9 +11,24 @@ let playerIcon = null;
 let playerMoves = null;
 let nextPlayerInstructions = "";
 let playerWin = "";
+let playerOne = "";
+let playerTwo = "";
 
 // Starts/Resets game
 start.addEventListener("click", () => {
+  // Set beginning conditions
+  win = false;
+  turn = 1;
+  playerName = "";
+  playerIcon = null;
+  playerMoves = null;
+  nextPlayerInstructions = "";
+  playerWin = "";
+  playerOne = "";
+  playerTwo = "";
+
+  start.textContent = "Reset Game";
+
   ticTacToe();
 });
 
@@ -78,8 +93,8 @@ squares.forEach((square) => {
 
 function ticTacToe() {
   // Ask for the names of both players
-  let playerOne = prompt("Name of Player for X");
-  let playerTwo = prompt("Name of Player for O");
+  playerOne = prompt("Name of Player for X");
+  playerTwo = prompt("Name of Player for O");
 
   // Object factory function to create players (assign name, icon, and list of moves)
   function players(playerOne, playerTwo) {
@@ -101,15 +116,6 @@ function ticTacToe() {
   currentPlayers = players(playerOne, playerTwo);
 
   playerNames.textContent = `${playerOne}(X) vs. ${playerTwo}(O)`;
-
-  // Set beginning conditions
-  win = false;
-  turn = 1;
-  playerName = "";
-  playerIcon = null;
-  playerMoves = null;
-  nextPlayerInstructions = "";
-  playerWin = "";
 
   squares.forEach((square) => {
     square.style.pointerEvents = "auto";
